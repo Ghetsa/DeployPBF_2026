@@ -1,9 +1,12 @@
+Berikut laporan **Jobsheet 16 (Deployment Next.js ke Vercel)** dalam format **Markdown (MD)** dengan struktur dan gaya penulisan yang sudah disesuaikan **persis seperti laporan sebelumnya**, serta sudah mencantumkan **seluruh langkah dan modifikasi** secara sistematis.
+
+---
 
 # PEMROGRAMAN BERBASIS FRAMEWORK
 
-## JOBSHEET 19
+## JOBSHEET 20
 
-### Implementasi Unit Testing pada Next.js menggunakan Jest
+### Deployment Aplikasi Next.js ke Vercel
 
 ---
 
@@ -23,50 +26,76 @@
 
 Setelah menyelesaikan praktikum ini, mahasiswa mampu:
 
-1. Memahami konsep dasar Unit Testing
-2. Menginstal dan mengkonfigurasi Jest di Next.js
-3. Menggunakan React Testing Library
-4. Membuat file testing (.spec / .test)
-5. Menguji komponen dan halaman (pages)
-6. Menghasilkan laporan coverage
-7. Melakukan mocking pada Next Router
-8. Menganalisis error melalui testing
+1. Membuat repository GitHub dan menghubungkannya dengan project lokal
+2. Melakukan deployment aplikasi Next.js ke Vercel
+3. Mengelola environment variables di Vercel
+4. Memahami perbedaan SSG dan SSR saat deployment
+5. Mengatasi error build akibat penggunaan localhost API
+6. Menghubungkan Google OAuth ke domain production
+7. Melakukan redeploy setelah perubahan konfigurasi
+8. Menghubungkan aplikasi ke domain production
 
 ---
 
 # B. Dasar Teori Singkat
 
-## 1️⃣ Pengertian Unit Testing
+## 1️⃣ Deployment Aplikasi Web
 
-Unit Testing adalah proses pengujian Praktikum kecil dari aplikasi (unit), seperti:
+Deployment adalah proses mempublikasikan aplikasi dari lingkungan lokal ke server agar dapat diakses secara online.
 
-* Component
-* Pages
-* Function
-* Library
+Alur deployment:
 
-Tujuan utama:
-
-* Mencegah bug
-* Menjamin stabilitas kode
-* Meningkatkan kualitas aplikasi
-* Memenuhi standar industri (≥ 80% coverage)
+```text
+Project lokal
+↓
+Push ke GitHub
+↓
+Import ke Vercel
+↓
+Build aplikasi
+↓
+Deploy ke production
+↓
+Aplikasi dapat diakses publik
+```
 
 ---
 
-## 2️⃣ Coverage Testing
+## 2️⃣ Konsep SSG, SSR, dan CSR
 
-Coverage digunakan untuk mengukur seberapa banyak kode yang sudah diuji, meliputi:
+| Konsep | Penjelasan                |
+| ------ | ------------------------- |
+| SSG    | Data diambil saat build   |
+| SSR    | Data diambil saat request |
+| CSR    | Data diambil di browser   |
 
-* Statements
-* Branch
-* Function
-* Lines
+---
 
-Standar industri:
+## 3️⃣ Environment Variable
 
-* ≥ 80% → Layak production
-* < 80% → Perlu perbaikan
+Environment variable digunakan untuk menyimpan konfigurasi penting seperti URL API.
+
+Contoh:
+
+```text
+NEXT_PUBLIC_API_URL
+```
+
+Tujuannya:
+
+* Menghindari hardcode URL
+* Mempermudah konfigurasi production
+* Meningkatkan keamanan
+
+---
+
+## 4️⃣ OAuth Production
+
+OAuth digunakan untuk autentikasi pihak ketiga (misalnya Google Login).
+Pada production, perlu konfigurasi:
+
+* Authorized Origin
+* Redirect URI
 
 ---
 
@@ -74,511 +103,391 @@ Standar industri:
 
 ---
 
-## Praktikum 1 – Setup Jest di Next.js
+## Bagian 1 – Membuat Repository GitHub
 
-### 1️⃣ Install Dependencies
+### 1️⃣ Membuat repository baru
 
-Jalankan perintah berikut:
+Langkah:
+
+1. Login ke GitHub
+2. Klik **New Repository**
+3. Isi nama repository
+4. Pilih Public/Private
+5. Klik **Create Repository**
+
+---
+
+### 2️⃣ Konfigurasi Git
+
+Cek konfigurasi:
 
 ```bash
-npm install jest jest-environment-jsdom @testing-library/react @testing-library/jest-dom --save-dev --force
+git config --global user.name
+git config --global user.email
 ```
 
-![alt text](/jobsheet-19/my-app/public/img/laporan/image.png)
-
----
-
-### 2️⃣ Membuat File Konfigurasi Jest
-
-Buat file:
-
-```text
-jest.config.mjs
-```
-
-Isi konfigurasi dasar:
-
-```js
-import nextJest from 'next/jest.js';
-
-const createJestConfig = nextJest({
-  dir: './',
-});
-
-const config = {
-  testEnvironment: 'jest-environment-jsdom',
-};
-
-export default createJestConfig(config);
-```
-
----
-
-### 3️⃣ Menambahkan Script pada package.json
-
-```json
-"scripts": {
-  "test": "jest --passWithNoTests -u",
-  "test:coverage": "npm run test -- --coverage",
-  "test:watch": "jest --watch"
-}
-```
-
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-1.png)
-
----
-
-## Praktikum 2 – Struktur Folder Testing
-
-### 1️⃣ Membuat Folder Testing
-
-Buat folder:
-
-```text
-src/__test__/
-```
-
-Struktur folder:
-
-```text
-src
-├── pages
-├── components
-├── views
-└── __test__
-    ├── pages
-    └── components
-```
-
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-2.png)
-
----
-
-## Praktikum 3 – Testing Halaman About
-
-### 1️⃣ Membuat File Testing
-
-```text
-src/__test__/pages/about.spec.tsx
-```
-
----
-
-### 2️⃣ Menambahkan Testing Snapshot
-
-```tsx
-import { render } from "@testing-library/react"
-import AboutPage from "@/pages/about"
-
-describe("About Page", () => {
-  it("renders about page correctly", () => {
-    const page = render(<AboutPage />)
-    expect(page).toMatchSnapshot()
-  })
-})
-```
----
-
-#### Jika terjadi error
-
-1. Instal Type Definitions 
-```tsx
-npm install --save-dev @types/jest
-```
-
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-3.png)
-
-
-2. Update Konfigurasi tsconfig.json
-```tsx
-{
-  "compilerOptions": {
-    "types": ["node", "jest"] 
-  }
-}
-```
-
----
-
-### 3️⃣ Menjalankan Testing
+Jika belum ada:
 
 ```bash
-npm run test
+git config --global user.name "username_github"
+git config --global user.email "email_github"
+```
+
+---
+
+### 3️⃣ Menghubungkan project ke GitHub
+
+Tambahkan remote repository:
+
+```bash
+git remote add origin https://github.com/username/repository.git
+git add .
+git commit -m "Initial deployment"
+git push origin main
 ```
 
 Hasil:
 
-```text
-PASS about.spec.tsx
-```
+![alt text](image.png)
 
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-4.png)
+* Project berhasil terupload ke GitHub
 
 ---
 
-## Praktikum 4 – Coverage Report
+## Bagian 2 – Deployment ke Vercel
 
-### 1️⃣ Menjalankan Coverage
-
-```bash
-npm run test:coverage
-```
-
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-5.png)
-
----
-
-### 2️⃣ Hasil
-
-Akan muncul folder:
-
-```text
-coverage/
-```
+### 1️⃣ Login ke Vercel
 
 Buka:
 
 ```text
-coverage/lcov-report/index.html
+https://vercel.com
 ```
 
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-6.png)
-
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-7.png)
+Login menggunakan akun GitHub.
 
 ---
 
-## Praktikum 5 – Konfigurasi Coverage Lengkap
+### 2️⃣ Import project
 
-### 1️⃣ Modifikasi jest.config.mjs
+Langkah:
 
-Tambahkan:
+1. Klik **Add New Project**
+2. Install GitHub jika diminta
+3. Klik **Import** pada repository
 
-```js
-import nextJest from 'next/jest.js'
+![alt text](image-1.png)
 
-const createJestConfig = nextJest({
-  dir: './',
-})
+---
 
-const config = {
-  testEnvironment: "jsdom",
-  modulePaths: ['<rootDir>/src/'],
-  collectCoverage: true,
-  collectCoverageFrom: [
-    '**/*.{ts,tsx}',
-    '**/*.d.ts',
-    '!**/node_modules/**',
-    '!**/.next/**',
-    '!**/coverage/**',
-    '!**/jest.config.mjs',
-    '!**/next.config.mjs',
-    '!**/types/**',
-    '!**/views/**',
-    '!**/pages/api/**'
-  ],
+## Bagian 3 – Mengatasi Error Saat Deployment
+
+### 1️⃣ Masalah: Static Site Generation (SSG) gagal
+
+Penyebab:
+
+* Project masih menggunakan SSG
+* API masih menggunakan localhost
+
+---
+
+### 2️⃣ Modifikasi: Hapus file static
+
+Hapus file:
+
+```text
+static.tsx
+```
+
+![alt text](image-2.png)
+
+---
+
+### 3️⃣ Modifikasi: Comment SSG
+
+Buka file:
+
+```text
+[produk].tsx
+```
+
+Comment bagian SSG (misalnya `getStaticProps` atau `getStaticPaths`).
+
+---
+
+### 4️⃣ Modifikasi: Gunakan SSR
+
+Aktifkan SSR dengan membuka comment:
+
+```tsx
+export async function getServerSideProps() {
+  // fetch data
 }
+```
 
-export default createJestConfig(config)
+![alt text](image-3.png)
+
+---
+
+### 5️⃣ Modifikasi: Tambahkan environment variable
+
+Buat file:
+
+```text
+.env.local
+```
+
+Isi:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
 
 ---
 
-### 2️⃣ Jalankan Ulang
+### 6️⃣ Modifikasi: Ganti hardcoded URL
+
+Sebelum:
+
+```ts
+fetch("http://localhost:3000/api/product")
+```
+
+Sesudah:
+
+```ts
+fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/product`)
+```
+
+Dilakukan pada:
+
+```text
+[produk].tsx
+server.tsx
+```
+
+![alt text](image-4.png)
+
+![alt text](image-5.png)
+
+---
+
+### 7️⃣ Commit ulang
 
 ```bash
-npm run test:coverage
+git add .
+git commit -m "fix deployment config"
+git push origin main
 ```
-
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-8.png)
-
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-9.png)
 
 ---
 
-## Praktikum 6 – Testing dengan getByTestId
+## Bagian 4 – Menambahkan Environment Variable di Vercel
 
-### 1️⃣ Modifikasi Halaman About
+### 1️⃣ Buka setting project
+
+Masuk ke:
+
+```text
+Settings → Environment Variables
+```
+
+---
+
+### 2️⃣ Import environment
 
 Tambahkan:
 
-```tsx
-<h1 data-testid="title">About Page</h1>
-```
-
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-10.png)
-
----
-
-### 2️⃣ Update Testing
-
-```tsx
-import { render, screen } from "@testing-library/react"
-import AboutPage from "@/pages/about"
-
-describe("About Page", () => {
-  it("renders about page correctly", () => {
-    const page = render(<AboutPage />)
-    expect(screen.getByTestId("title").textContent).toBe("About Page")
-    expect(page).toMatchSnapshot()
-  })
-})
-```
-
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-11.png)
-
----
-
-### 3️⃣ Pengujian Error
-
-Jika diubah menjadi:
-
-```tsx
-toBe("About")
-```
-
-Hasil:
-
 ```text
-FAIL
-Expected: "About"
-Received: "About Page"
+NEXT_PUBLIC_API_URL=https://namaproject.vercel.app
 ```
-
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-12.png)
-
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-13.png)
-
----
-
-## Praktikum 7 – Testing Page dengan Router (Mocking)
-
-### 1️⃣ Membuat File Testing Product
-
-```js
-import { render, screen } from "@testing-library/react"
-import TampilanProduk from "@/pages/produk"
-
-describe("Product Page", () => {
-  it("renders product page correctly", () => {
-    const page = render(<TampilanProduk />)
-    expect(screen.getByTestId("title").textContent).toBe("Product Page")
-    expect(page).toMatchSnapshot()
-  })
-})
-```
-
-
-
----
-
-### 2️⃣ Error yang Terjadi
-
-```text
-NextRouter was not mounted
-```
-
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-14.png)
-
----
-
-### 3️⃣ Solusi Mock Router
-
-Tambahkan kode berikut:
-
-```tsx
-jest.mock("next/router", () => ({
-  useRouter() {
-    return {
-      push: jest.fn(),
-      prefetch: jest.fn(),
-    };
-  },
-}));
-```
-
----
-
-## Praktikum 8 – Menangani Undefined Data
-
-### 1️⃣ Error
-
-```text
-Cannot read properties of undefined
-```
-
- Praktikum 8 – Menangani Undefined Data
-
----
-
-### 2️⃣ Perbaikan pada Komponen
-
-Contoh:
-
-```tsx
-{data && data.name}
-```
-
-atau
-
-```tsx
-data?.name
-```
-
----
-
-### 3️⃣ Jalankan Ulang
-
-```bash
-npm run test:coverage
-```
-
----
-
-## Analisis Coverage
-
-Hasil:
-
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-15.png)
-
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-16.png)
-
-![alt text](/jobsheet-19/my-app/public/img/laporan/image-17.png)
 
 Catatan:
 
-* Branch paling sulit karena harus menguji kondisi if/else
+* Tidak menggunakan "/" di akhir URL
 
 ---
 
-# D. Struktur Testing
+### 3️⃣ Redeploy
 
-Struktur final:
+Langkah:
 
 ```text
-src/__test__/
-├── pages
-│   ├── about.spec.tsx
-│   └── product.spec.tsx
-└── components
+Deployment → Redeploy
 ```
 
 ---
 
-# F. Tugas Praktikum
+## Bagian 5 – Konfigurasi Google OAuth Production
 
-1. Membuat unit test untuk:
+### 1️⃣ Masuk ke Google Cloud Console
 
-   * Halaman Product
-   * 1 Komponen
+Langkah:
 
-2. Menggunakan:
+1. Buka Google Developer Console
+2. Pilih **Credentials**
+3. Pilih OAuth Client
 
-   * Snapshot test
-   * toBe()
-   * getByTestId()
+---
 
-3. Coverage minimal 50%
+### 2️⃣ Tambahkan Authorized Origins
 
-4. Mocking router
+Isi dengan:
 
-5. Dokumentasi hasil coverage
+```text
+https://namaproject.vercel.app
+```
 
+---
 
-## Hasil
+### 3️⃣ Tambahkan Redirect URI
 
-1. **Unit Test Halaman Product**
+Contoh:
 
-   * Membuat unit test untuk halaman Product pada file `src/__test__/pages/product.spec.tsx`
-   * Test menggunakan snapshot, `toBe()`, dan `getByTestId()`
+```text
+https://namaproject.vercel.app/api/auth/callback/google
+```
 
-   Screenshot kode unit test halaman Product
-   ![alt text](/jobsheet-19/my-app/public/img/laporan/image-23.png)
+---
 
-   Screenshot hasil test di terminal (Product Page PASS)
-    ![alt text](/jobsheet-19/my-app/public/img/laporan/image-19.png)
+### 4️⃣ Modifikasi kode login
 
-2. **Unit Test Komponen**
+File:
 
-   * Membuat unit test untuk komponen `Navbar` pada file `src/__test__/components/navbar.spec.tsx`
-   * Test memastikan komponen menampilkan title dan item produk menggunakan `getByTestId()` dan `toBe()`
+```text
+views/auth/login/index.tsx
+```
 
-   Screenshot kode unit test komponen
-  ![alt text](/jobsheet-19/my-app/public/img/laporan/image-32.png)
+Perbaiki bagian konfigurasi login Google agar sesuai dengan domain production.
 
-   Screenshot hasil test komponen di terminal
-   ![alt text](/jobsheet-19/my-app/public/img/laporan/image-33.png)
+---
 
-3. **Penggunaan Snapshot Test**
+### 5️⃣ Redeploy ulang
 
-   * Snapshot test digunakan untuk memastikan tampilan komponen tidak berubah secara tidak sengaja
-   * Snapshot dibuat otomatis oleh Jest pada saat test dijalankan
+Agar konfigurasi terbaca:
 
-   Screenshot file snapshot yang dihasilkan
-   ![alt text](/jobsheet-19/my-app/public/img/laporan/image-26.png)
+```text
+Redeploy di Vercel
+```
 
-   ![alt text](/jobsheet-19/my-app/public/img/laporan/image-27.png)
+---
 
+## Bagian 6 – Pengujian Deployment
 
-4. **Penggunaan Assertion `toBe()` dan Query `getByTestId()`**
+### 1️⃣ Pengujian halaman
 
-   * `getByTestId()` digunakan untuk mengambil elemen berdasarkan atribut `data-testid`
-   * `toBe()` digunakan untuk memastikan nilai yang dihasilkan sesuai dengan yang diharapkan
+Akses:
 
-   Screenshot kode penggunaan `getByTestId()` dan `toBe()` pada unit test
-  ![alt text](/jobsheet-19/my-app/public/img/laporan/image-28.png)
+```text
+/
+ /about
+ /product
+ /profile
+```
 
-5. **Mocking Router**
+---
 
-   * Router dari Next.js dimock menggunakan `jest.mock("next/router")`
-   * Digunakan agar halaman dapat diuji tanpa menjalankan router asli dari Next.js
+### 2️⃣ Pengujian fitur login
 
-   Screenshot kode mocking router pada unit test
-   ![alt text](/jobsheet-19/my-app/public/img/laporan/image-29.png)
+Uji:
 
-6. **Hasil Coverage Testing**
+* Login Google
+* Login credential biasa
 
-   * Testing dijalankan menggunakan perintah `npm run test:coverage`
-   * Coverage yang dihasilkan telah melebihi syarat minimal 50%
+---
 
-   Screenshot hasil coverage di terminal
-   ![alt text](/jobsheet-19/my-app/public/img/laporan/image-30.png)
+### 3️⃣ Validasi sistem
 
-   Screenshot halaman laporan coverage (`coverage/lcov-report/index.html`)
-   ![alt text](/jobsheet-19/my-app/public/img/laporan/image-31.png)
+Pastikan:
+
+* SSR berjalan
+* API tidak menggunakan localhost
+* Database terkoneksi
+* Login Google berhasil
+
+---
+
+# D. Pengujian
+
+## Uji 1 – Deployment Berhasil
+
+Hasil:
+
+* Aplikasi dapat diakses via URL Vercel
+* Semua halaman dapat dibuka
+
+---
+
+## Uji 2 – Environment Variable
+
+Hasil:
+
+* API menggunakan URL production
+* Tidak ada error localhost
+
+---
+
+## Uji 3 – Login Google
+
+Hasil:
+
+* Login berhasil
+* Redirect sesuai konfigurasi
+
+---
+
+## Uji 4 – SSR
+
+Hasil:
+
+* Data berhasil dimuat saat request
+* Tidak terjadi error build
+
+---
+
+# E. Tugas Praktikum
+
+1. Deploy project ke Vercel
+2. Menghilangkan penggunaan localhost
+3. Konfigurasi Google OAuth production
+4. Melakukan redeploy minimal 1x
+5. Dokumentasi:
+
+   * Screenshot dashboard Vercel
+   * URL deployment
+   * Screenshot login Google
 
 ---
 
 # F. Pertanyaan Analisis
 
-### 1. Mengapa unit testing penting sebelum production?
+### 1. Mengapa localhost tidak boleh digunakan di production?
 
-Unit testing penting karena dapat mendeteksi bug lebih awal sebelum aplikasi digunakan oleh user. Dengan adanya unit test, developer dapat memastikan setiap fungsi dan komponen berjalan sesuai dengan yang diharapkan. Selain itu, unit testing membantu menjaga stabilitas aplikasi saat dilakukan perubahan atau pengembangan fitur baru.
-
----
-
-### 2. Mengapa branch coverage sulit mencapai 100%?
-
-Branch coverage sulit mencapai 100% karena setiap kondisi percabangan seperti `if`, `else`, dan `switch` harus diuji semua kemungkinan hasilnya. Dalam aplikasi yang kompleks, jumlah kondisi bisa sangat banyak, termasuk edge case yang jarang terjadi, sehingga membutuhkan banyak skenario test untuk mencapainya.
+Karena localhost hanya berjalan di komputer lokal dan tidak dapat diakses oleh server production, sehingga API akan gagal saat deployment.
 
 ---
 
-### 3. Apa itu mocking?
+### 2. Mengapa SSG bisa gagal saat build?
 
-Mocking adalah teknik dalam testing untuk meniru fungsi atau modul tertentu agar tidak menggunakan dependensi asli. Dengan mocking, proses testing menjadi lebih cepat, stabil, dan tidak bergantung pada API, database, atau sistem eksternal lainnya.
-
----
-
-### 4. Kapan snapshot test digunakan?
-
-Snapshot test digunakan untuk memastikan tampilan UI tetap konsisten dari waktu ke waktu. Jika terjadi perubahan pada tampilan, snapshot akan mendeteksi perbedaan tersebut sehingga developer dapat mengetahui apakah perubahan tersebut memang diinginkan atau tidak.
+Karena data diambil saat proses build, sehingga jika API tidak dapat diakses (misalnya localhost), proses build akan gagal.
 
 ---
 
-### 5. Apakah semua file harus dites?
+### 3. Apa perbedaan SSR dan SSG saat deployment?
 
-Tidak semua file harus dites, tetapi file yang berisi fitur utama atau logic penting (critical feature) wajib dites. Hal ini karena bagian tersebut memiliki pengaruh besar terhadap jalannya aplikasi, sehingga harus dipastikan berjalan dengan benar.
+SSG mengambil data saat build, sedangkan SSR mengambil data saat request sehingga lebih fleksibel pada production.
 
+---
+
+### 4. Mengapa perlu redeploy setelah menambahkan environment?
+
+Karena perubahan environment variable tidak langsung diterapkan sebelum dilakukan build ulang.
+
+---
+
+### 5. Apa fungsi redirect URI pada OAuth?
+
+Redirect URI digunakan untuk menentukan tujuan setelah proses autentikasi berhasil.
 
 ---
 
@@ -586,13 +495,12 @@ Tidak semua file harus dites, tetapi file yang berisi fitur utama atau logic pen
 
 Mahasiswa menghasilkan:
 
-* Jest terkonfigurasi
-* Testing berjalan
-* Snapshot test berhasil
-* getByTestId berjalan
-* Mocking router berhasil
-* Coverage report muncul
-* Error dapat dianalisis
+* Project terhubung ke GitHub
+* Aplikasi berhasil deploy di Vercel
+* Environment variable berjalan
+* API tidak menggunakan localhost
+* OAuth production berhasil
+* Aplikasi dapat diakses secara online
 
 ---
 
@@ -600,12 +508,12 @@ Mahasiswa menghasilkan:
 
 Pada praktikum ini telah dipelajari:
 
-* Instalasi dan konfigurasi Jest pada Next.js
-* Penggunaan React Testing Library
-* Pembuatan unit test pada halaman
-* Penggunaan snapshot dan getByTestId
-* Pembuatan coverage report
-* Teknik mocking pada Next Router
-* Penanganan error saat testing
+* Proses deployment aplikasi Next.js ke Vercel
+* Integrasi GitHub dengan Vercel
+* Penggunaan environment variable pada production
+* Perbedaan SSG dan SSR
+* Penanganan error deployment
+* Konfigurasi OAuth production
+* Proses redeploy aplikasi
 
-Unit testing sangat penting dalam pengembangan aplikasi modern karena membantu menjaga kualitas kode, mendeteksi bug lebih awal, dan memastikan aplikasi siap untuk production.
+Deployment merupakan tahap penting dalam pengembangan aplikasi web karena menentukan apakah aplikasi dapat berjalan dengan baik di lingkungan production. Dengan konfigurasi yang tepat, aplikasi dapat berjalan stabil, aman, dan dapat diakses secara luas.
