@@ -6,7 +6,9 @@ import styles from "../DetailProduct/detailProduct.module.scss"
 const DetailProduk = ({ products }: { products: ProductType }) => {
   return (
     <>
-      <h1 data-testid="title" className={styles.title}>Detail Produk</h1>
+      <h1 data-testid="title" className={styles.title}>
+        Detail Produk
+      </h1>
 
       <div className={styles.produkdetail}>
         <div className={styles.produkdetail__image}>
@@ -18,11 +20,21 @@ const DetailProduk = ({ products }: { products: ProductType }) => {
         </div>
 
         <div className={styles.produkdetail__info}>
-          <h1 data-testid="product-name">{products?.name}</h1>
-          <p data-testid="product-category">{products?.category}</p>
-          <p data-testid="product-price">
+          <h1 className={styles.produkdetail__name}>
+            {products?.name}
+          </h1>
+
+          <p className={styles.produkdetail__category}>
+            {products?.category}
+          </p>
+
+          <p className={styles.produkdetail__price}>
             Rp {products?.price?.toLocaleString("id-ID")}
           </p>
+
+          <button className={styles.produkdetail__button}>
+            Beli Sekarang
+          </button>
         </div>
       </div>
     </>
