@@ -25,7 +25,9 @@ const DetailProduk = ({ products }: { products: ProductType }) => {
                     </p>
                 </div>
             </div>
+            
         </>
+        
     )
 }
 

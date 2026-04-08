@@ -19,13 +19,28 @@ export default HalamanProduk
 
 //digunakan server-side rendering
 export async function getServerSideProps({ params }: { params: { produk: string } }) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/produk/${params?.produk}`);
-  const respone = await res.json();
-  // console.log("Data produk yang diambil dari API:", respone);
-  return {
-    props: {
-      product: respone.data, // Pastikan untuk memberikan nilai default jika data tidak tersedia
-    },
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/produk/${params?.produk}`);
+
+    if (!res.ok) {
+      return { notFound: true };
+    }
+
+    const response = await res.json();
+
+    if (!response.data) {
+      return { notFound: true };
+    }
+
+    return {
+      props: {
+        product: response.data,
+      },
+    };
+  } catch (error) {
+    console.error("ERROR DETAIL:", error);
+
+    return { notFound: true };
   }
 }
 
