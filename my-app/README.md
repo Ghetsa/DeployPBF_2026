@@ -391,6 +391,8 @@ Agar konfigurasi terbaca:
 Redeploy di Vercel
 ```
 
+![alt text](image-15.png)
+
 ---
 
 ## Bagian 6 – Pengujian Deployment
@@ -400,11 +402,24 @@ Redeploy di Vercel
 Akses:
 
 ```text
-/
+ /
  /about
- /product
+ /produk
  /profile
 ```
+
+* Halaman Index
+![alt text](image-15.png)
+
+* Halaman About
+![alt text](image-16.png)
+
+* Halaman Produk
+![alt text](image-17.png)
+
+* Halaman About
+![alt text](image-18.png)
+
 
 ---
 
@@ -413,7 +428,14 @@ Akses:
 Uji:
 
 * Login Google
+![alt text](image-19.png)
+
+![alt text](image-18.png)
+
 * Login credential biasa
+![alt text](image-20.png)
+
+![alt text](image-21.png)
 
 ---
 

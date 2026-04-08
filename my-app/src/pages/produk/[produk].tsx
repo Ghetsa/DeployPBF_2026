@@ -1,3 +1,5 @@
+// pages/produk/[produk].tsx
+
 import fetcher from "@/utils/swr/fetcher"
 import { useRouter } from "next/router"
 import useSWR from "swr"
