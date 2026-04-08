@@ -444,65 +444,48 @@ Uji:
 Pastikan:
 
 * SSR berjalan
+![alt text](image-22.png)
+
 * API tidak menggunakan localhost
+![alt text](image-23.png)
+
 * Database terkoneksi
+![alt text](image-24.png)
+
 * Login Google berhasil
+![alt text](image-18.png)
 
 ---
 
-# D. Pengujian
-
-## Uji 1 – Deployment Berhasil
-
-Hasil:
-
-* Aplikasi dapat diakses via URL Vercel
-* Semua halaman dapat dibuka
-
----
-
-## Uji 2 – Environment Variable
-
-Hasil:
-
-* API menggunakan URL production
-* Tidak ada error localhost
-
----
-
-## Uji 3 – Login Google
-
-Hasil:
-
-* Login berhasil
-* Redirect sesuai konfigurasi
-
----
-
-## Uji 4 – SSR
-
-Hasil:
-
-* Data berhasil dimuat saat request
-* Tidak terjadi error build
-
----
-
-# E. Tugas Praktikum
+# D. Tugas Praktikum
 
 1. Deploy project ke Vercel
+![alt text](image-25.png)
+
 2. Menghilangkan penggunaan localhost
+![alt text](image-28.png)
+
 3. Konfigurasi Google OAuth production
+![alt text](image-29.png)
+
 4. Melakukan redeploy minimal 1x
+![alt text](image-26.png)
+
 5. Dokumentasi:
 
    * Screenshot dashboard Vercel
-   * URL deployment
-   * Screenshot login Google
+  ![alt text](image-25.png)
 
+   * URL deployment
+  ![alt text](image-27.png)
+
+   * Screenshot login Google
+  ![alt text](image-19.png)
+
+  ![alt text](image-18.png)
 ---
 
-# F. Pertanyaan Analisis
+# E. Pertanyaan Analisis
 
 ### 1. Mengapa localhost tidak boleh digunakan di production?
 
@@ -534,7 +517,7 @@ Redirect URI digunakan untuk menentukan tujuan setelah proses autentikasi berhas
 
 ---
 
-# G. Output yang Diharapkan
+# F. Output yang Diharapkan
 
 Mahasiswa menghasilkan:
 
@@ -547,7 +530,7 @@ Mahasiswa menghasilkan:
 
 ---
 
-# H. Kesimpulan
+# G. Kesimpulan
 
 Pada praktikum ini telah dipelajari:
 
