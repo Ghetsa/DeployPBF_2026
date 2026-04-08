@@ -7,8 +7,6 @@ import DetailProduk from "../../views/DetailProduct"
 import { ProductType } from "@/types/Product.type"
 
 const HalamanProduk = ({ product }: { product: ProductType }) => {
-  //digunakan client-side rendering
-  // // const Router = useRouter(); ...
 
   return (
     <div>
@@ -28,8 +26,7 @@ export async function getServerSideProps({ params }: { params: { produk: string 
     props: {
       product: respone.data, // Pastikan untuk memberikan nilai default jika data tidak tersedia
     },
-  };
-
+  }
 }
 
 // digunakan static-site generation

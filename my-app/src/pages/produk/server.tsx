@@ -1,5 +1,4 @@
 // pages/produk/server.tsx
-
 import TampilanProduk from "../../views/produk"
 import { ProductType } from "../../types/Product.type"
 
@@ -17,7 +16,7 @@ export default halamanProdukServer
 
 // Fungsi getServerSideProps akan dipanggil setiap kali halaman ini diakses, dan akan mengambil data produk dari API sebelum merender halaman.
 export async function getServerSideProps() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/produk`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/produk`)
   const respone = await res.json()
   // console.log("Data produk yang diambil dari API:", respone)
   return {
