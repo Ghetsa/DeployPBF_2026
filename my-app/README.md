@@ -291,7 +291,7 @@ git push origin main
 
 ---
 
-## Bagian 4 – Menambahkan Environment Variable di Vercel
+## Bagian 3 – Menambahkan Environment Variable di Vercel
 
 ### 1️⃣ Buka setting project
 
@@ -300,6 +300,8 @@ Masuk ke:
 ```text
 Settings → Environment Variables
 ```
+
+![alt text](image-9.png)
 
 ---
 
@@ -327,7 +329,7 @@ Deployment → Redeploy
 
 ---
 
-## Bagian 5 – Konfigurasi Google OAuth Production
+## Bagian 4 – Konfigurasi Google OAuth Production
 
 ### 1️⃣ Masuk ke Google Cloud Console
 
@@ -337,6 +339,10 @@ Langkah:
 2. Pilih **Credentials**
 3. Pilih OAuth Client
 
+![alt text](image-10.png)
+
+![alt text](image-11.png)
+
 ---
 
 ### 2️⃣ Tambahkan Authorized Origins
@@ -344,8 +350,10 @@ Langkah:
 Isi dengan:
 
 ```text
-https://namaproject.vercel.app
+https://deploy-pbf-2026.vercel.app
 ```
+
+![alt text](image-13.png)
 
 ---
 
@@ -354,8 +362,12 @@ https://namaproject.vercel.app
 Contoh:
 
 ```text
-https://namaproject.vercel.app/api/auth/callback/google
+https://deploy-pbf-2026.vercel.app/api/auth/callback/google
 ```
+
+![alt text](image-14.png)
+
+![alt text](image-12.png)
 
 ---
 

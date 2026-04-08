@@ -85,12 +85,12 @@ const Tampilanlogin = () => {
                         </span>
                     )}
 
-                    {/* BUTTON LOGIN UTAMA */}
                     <button
                         type="submit"
                         className={style.login__form__button}
                         disabled={isLoading}
                     >
+                        {/* Mengikuti gambar: "Login" dengan huruf kapital L */}
                         {isLoading ? "Loading..." : "Login"}
                     </button>
 
@@ -102,21 +102,14 @@ const Tampilanlogin = () => {
                         type="button"
                         onClick={() => signIn("google", { callbackUrl, redirect: false })}
                         className={`${style.login__form__button} ${style.login__form__button__google}`}
-                        disabled={isLoading}
                     >
-                        {isLoading ? (
-                            "Loading..."
-                        ) : (
-                            <>
-                                <img
-                                    src="https://authjs.dev/img/providers/google.svg"
-                                    alt="Google Icon"
-                                    width="18"
-                                    height="18"
-                                />
-                                <span>Sign In with Google</span>
-                            </>
-                        )}
+                        <img
+                            src="https://authjs.dev/img/providers/google.svg"
+                            alt="Google Icon"
+                            width="18"
+                            height="18"
+                        />
+                        <span>Sign In with Google</span>
                     </button>
 
                     <button
