@@ -6,22 +6,22 @@ import useSWR from "swr"
 import DetailProduk from "../../views/DetailProduct"
 import { ProductType } from "@/types/Product.type"
 
-const HalamanProduk = ({product}:{product: ProductType}) => {
-//digunakan client-side rendering
-// // const Router = useRouter(); ...
+const HalamanProduk = ({ product }: { product: ProductType }) => {
+  //digunakan client-side rendering
+  // // const Router = useRouter(); ...
 
-return (
-  <div>
-    <DetailProduk products={product} />
-  </div>
- )
+  return (
+    <div>
+      <DetailProduk products={product} />
+    </div>
+  )
 }
 
 export default HalamanProduk
 
 //digunakan server-side rendering
 export async function getServerSideProps({ params }: { params: { produk: string } }) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/produk/${params?.produk}`);
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/produk/${params?.produk}`);
   const respone = await res.json();
   // console.log("Data produk yang diambil dari API:", respone);
   return {

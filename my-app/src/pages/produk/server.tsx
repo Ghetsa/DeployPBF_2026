@@ -1,27 +1,53 @@
-// pages/produk/server.tsx
-import TampilanProduk from "../../views/produk"
-import { ProductType } from "../../types/Product.type"
+import DetailProduk from "../../views/DetailProduct"
+import { ProductType } from "@/types/Product.type"
 
-const halamanProdukServer = (props:{products:ProductType[]}) => {
-  const { products } = props
+const HalamanProduk = ({ product }: { product: ProductType | null }) => {
+  // ✅ Guard biar ga crash
+  if (!product) {
+    return <div>Produk tidak ditemukan</div>
+  }
+
   return (
     <div>
-        <h1>Halaman Produk Server</h1>
-      <TampilanProduk products={products} />
-
+      <DetailProduk products={product} />
     </div>
   )
 }
-export default halamanProdukServer
 
-// Fungsi getServerSideProps akan dipanggil setiap kali halaman ini diakses, dan akan mengambil data produk dari API sebelum merender halaman.
-export async function getServerSideProps() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/produk`)
-  const respone = await res.json()
-  // console.log("Data produk yang diambil dari API:", respone)
-  return {
-    props: {
-      products: respone.data, // Pastikan untuk memberikan nilai default jika data tidak tersedia
-    },
+export default HalamanProduk
+
+// ✅ SSR yang aman (ANTI ERROR 500)
+export async function getServerSideProps({ params }: { params: { produk: string } }) {
+  try {
+    // 🔒 Validasi params
+    if (!params?.produk) {
+      return { notFound: true }
+    }
+
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/produk/${params.produk}`)
+
+    // 🔒 Cek response
+    if (!res.ok) {
+      return { notFound: true }
+    }
+
+    const response = await res.json()
+
+    // 🔒 Cek data
+    if (!response?.data) {
+      return { notFound: true }
+    }
+
+    return {
+      props: {
+        product: response.data,
+      },
+    }
+  } catch (error) {
+    console.error("SSR ERROR:", error)
+
+    return {
+      notFound: true,
+    }
   }
 }
