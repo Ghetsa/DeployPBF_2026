@@ -180,9 +180,9 @@ Langkah:
 
 ---
 
-## Bagian 3 – Mengatasi Error Saat Deployment
+### Mengatasi Error Saat Deployment
 
-### 1️⃣ Masalah: Static Site Generation (SSG) gagal
+#### 1️⃣ Masalah: Static Site Generation (SSG) gagal
 
 Penyebab:
 
@@ -191,7 +191,7 @@ Penyebab:
 
 ---
 
-### 2️⃣ Modifikasi: Hapus file static
+#### 2️⃣ Modifikasi: Hapus file static
 
 Hapus file:
 
@@ -203,7 +203,7 @@ static.tsx
 
 ---
 
-### 3️⃣ Modifikasi: Comment SSG
+#### 3️⃣ Modifikasi: Comment SSG
 
 Buka file:
 
@@ -215,7 +215,7 @@ Comment bagian SSG (misalnya `getStaticProps` atau `getStaticPaths`).
 
 ---
 
-### 4️⃣ Modifikasi: Gunakan SSR
+#### 4️⃣ Modifikasi: Gunakan SSR
 
 Aktifkan SSR dengan membuka comment:
 
@@ -229,7 +229,7 @@ export async function getServerSideProps() {
 
 ---
 
-### 5️⃣ Modifikasi: Tambahkan environment variable
+#### 5️⃣ Modifikasi: Tambahkan environment variable
 
 Buat file:
 
@@ -245,7 +245,7 @@ NEXT_PUBLIC_API_URL=http://localhost:3000
 
 ---
 
-### 6️⃣ Modifikasi: Ganti hardcoded URL
+#### 6️⃣ Modifikasi: Ganti hardcoded URL
 
 Sebelum:
 
@@ -272,13 +272,22 @@ server.tsx
 
 ---
 
-### 7️⃣ Commit ulang
+#### 7️⃣ Commit ulang
 
 ```bash
 git add .
 git commit -m "fix deployment config"
 git push origin main
 ```
+
+![alt text](image-6.png)
+
+
+### Import Project ke Vercel
+
+![alt text](image-7.png)
+
+![alt text](image-8.png)
 
 ---
 
