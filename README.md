@@ -1,6 +1,3 @@
-Berikut laporan **Jobsheet 16 (Deployment Next.js ke Vercel)** dalam format **Markdown (MD)** dengan struktur dan gaya penulisan yang sudah disesuaikan **persis seperti laporan sebelumnya**, serta sudah mencantumkan **seluruh langkah dan modifikasi** secara sistematis.
-
----
 
 # PEMROGRAMAN BERBASIS FRAMEWORK
 
