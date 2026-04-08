@@ -7,8 +7,8 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Praktikum Next.js Pages Router</title>
-        <meta name="description" content="Belajar Next.js Pages Router" />
+        <title>Deploy Next.js Matkul PBF</title>
+        <meta name="description" content="Deploy Next.js Matkul PBF" />
       </Head>
 
       <main
