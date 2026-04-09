@@ -1,6 +1,7 @@
 .navbar {
   width: 100%;
-  padding: 16px 40px;
+  height: 80px;
+  padding: 0 50px;
 
   display: flex;
   align-items: center;
@@ -14,56 +15,41 @@
   border-bottom-right-radius: 16px;
 }
 
-/* Brand */
+/* Logo / Brand */
 .navbar__brand {
   font-size: 22px;
   font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 /* Right Section */
 .navbar__right {
   display: flex;
   align-items: center;
-  gap: 20px;
-}
-
-/* User */
-.navbar__user {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  gap: 32px;
 }
 
 /* Welcome text */
-.navbar__welcome {
-  font-size: 14px;
+.navbar__user {
+  font-size: 16px;
+  font-weight: 500;
   opacity: 0.9;
-  max-width: 160px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; /* 🔥 biar ga kepanjangan */
-}
-
-/* Avatar */
-.navbar__user__image {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #3b82f6;
 }
 
 /* Button */
 .navbar__button {
-  padding: 8px 16px;
+  padding: 8px 18px;
   border-radius: 999px;
   border: none;
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s ease;
-  font-size: 14px;
+
+  margin-top: 0;
+  /* 🔥 ini yang bikin sejajar */
 }
 
+/* Sign In */
 .navbar__button--primary {
   background-color: #3b82f6;
   color: white;
@@ -71,8 +57,10 @@
 
 .navbar__button--primary:hover {
   background-color: #2563eb;
+  transform: translateY(-2px);
 }
 
+/* Sign Out */
 .navbar__button--danger {
   background-color: #ef4444;
   color: white;
@@ -80,55 +68,42 @@
 
 .navbar__button--danger:hover {
   background-color: #dc2626;
+  transform: translateY(-2px);
 }
 
-
-
-
-
-
-/* ========================= */
-/* 🔥 RESPONSIVE MOBILE */
-/* ========================= */
-
+/* Responsive */
 @media (max-width: 768px) {
   .navbar {
-    flex-direction: column; /* 🔥 stack */
-    align-items: flex-start;
-    gap: 12px;
-    padding: 16px 20px;
+    padding: 0 20px;
   }
 
-  .navbar__right {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .navbar__user {
-    flex: 1;
-  }
-
-  .navbar__welcome {
-    max-width: 120px; /* lebih kecil di mobile */
-    font-size: 13px;
-  }
-
-  .navbar__button {
-    padding: 6px 14px;
-    font-size: 13px;
+  .navbar__brand {
+    font-size: 18px;
   }
 }
 
-/* Small mobile */
-@media (max-width: 480px) {
-  .navbar__right {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .navbar__button {
-    width: 100%; /* 🔥 full width button */
-    text-align: center;
-  }
+.navbar__user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  opacity: 0.95;
 }
+
+/* Avatar image */
+.navbar__user__image {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #3b82f6;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+  transition: all 0.3s ease;
+}
+
+.navbar__user__image:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
+}
+

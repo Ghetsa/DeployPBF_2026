@@ -1,34 +1,32 @@
 import styles from './navbar.module.css';
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import Script from "next/dist/client/script";
 import Link from "next/link";
 
 const Navbar = () => {
   const { data }: any = useSession();
 
-  const defaultImage = "/user-default.jpeg";
+  const defaultImage = "/user-default.jpeg"; // dari public
 
   return (
-    <div className={styles.navbar} data-testid="navbar">
+<div className={styles.navbar} data-testid="navbar">      <div className={styles.navbar__brand} id="title"></div>
 
-      {/* ✅ Brand langsung tanpa Script */}
-      <div className={styles.navbar__brand}>
-        MyApp
-      </div>
+      <Script id="my-script" strategy="lazyOnload">
+        {`document.getElementById('title').innerHTML = 'MyApp';`}
+      </Script>
 
       <div className={styles.navbar__right}>
         {data ? (
           <>
             <div className={styles.navbar__user}>
-              <span className={styles.navbar__welcome}>
-                Welcome, {data.user?.fullname || "User"}
-              </span>
+              Welcome, {data.user?.fullname || "User"}
 
               <Link href="/profile">
                 <Image
                   data-testid="user-image"
-                  width={40}
-                  height={40}
+                  width={50}
+                  height={50}
                   src={data.user?.image || defaultImage}
                   alt={data.user?.fullname || "avatar"}
                   className={styles.navbar__user__image}
