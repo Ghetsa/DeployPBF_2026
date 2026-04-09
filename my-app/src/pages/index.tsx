@@ -1,5 +1,7 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import { Inter } from 'next/font/google'
+import styles from '../styles/Home.module.scss'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -11,32 +13,31 @@ export default function Home() {
         <meta name="description" content="Deploy Next.js Matkul PBF" />
       </Head>
 
-      <main
-        className={inter.className}
-        style={{
-          padding: '40px',
-          textAlign: 'center',
-          backgroundColor: '#ffffff',
-          minHeight: '100vh'
-        }}
-      >
-        <h1
-          style={{
-            color: '#0070f3',
-            fontSize: '36px',
-            marginBottom: '20px'
-          }}
-        >
-          <b>Praktikum Next.js Pages Router</b>
-        </h1>
+      <main className={`${inter.className} ${styles.main}`}>
+        <nav className={styles.navbar}>
+          <Link href="/" className={styles.navLink}>
+            Home
+          </Link>
+          <Link href="/produk" className={styles.navLink}>
+            Produk
+          </Link>
+          <Link href="/profile" className={styles.navLink}>
+            Profile
+          </Link>
+          <Link href="/about" className={styles.navLink}>
+            About
+          </Link>
+        </nav>
 
-        <p style={{ fontSize: '18px', color: '#333' }}>
-          Mahasiswa D4 TI Pengembangan Web dengan Framework.
-        </p>
+        <section className={styles.hero}>
+          <h1 className={styles.title}>Praktikum Next.js Pages Router</h1>
 
-        <p style={{ fontSize: '16px', color: '#555' }}>
-          This is me learning Next.js
-        </p>
+          <p className={styles.subtitle}>
+            Mahasiswa D4 TI Pengembangan Web dengan Framework.
+          </p>
+
+          <p className={styles.text}>This is me learning Next.js</p>
+        </section>
       </main>
     </>
   )
